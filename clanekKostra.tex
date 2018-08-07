@@ -1,0 +1,274 @@
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{tablefootnote}
+
+\usepackage{url}
+\urldef{\mailsa}\path{{fallout7,ircing}@kky.zcu.cz}
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Unsupervised vs Supervised Document Classification and Topic Detection}
+
+\titlerunning{Unsupervised vs Supervised Document Classification and Topic Detection}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Jaromír Novotný \and Pavel Ircing
+%\thanks{}%
+}
+%
+%\authorrunning{}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{The University of West Bohemia, Faculty of Applied Sciences,\\
+Cybernetics. Plzeň, Czech Republic\\
+\mailsa\\
+\url{http://www.kky.zcu.cz/en}}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+%\toctitle{Lecture Notes in Computer Science}
+%\tocauthor{Authors' Instructions}
+\maketitle
+
+
+
+\begin{abstract}
+This article presents a simple approach for pre-processing input text documents that are consequently classified using supervised and unsupervised methods for comparison of performance. The main goal is to show that state-of-the-art classification methods can be improved by a certain data preparation process and gain at least similar performance of unsupervised versus supervised method. The first method is a simple supervised Linear SVM classification algorithm and the second a standard K-means clustering. Both are widely used in text processing. Three data sets in two different languages are used for experiments with the mentioned algorithms. First, of them, the 20NewsGroup is a widely used benchmark for classification of English documents. The second and third data sets are in the less frequent Czech language being used for studies and were used mainly to compare the performance of the tested methods.
+
+Furthermore, the methods are also compared with the values reported in the previously published papers.
+
+\keywords{Text pre-processing, Classification, Topic detection, Evaluation, SVM, K-means}
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+This work deals with the preparation of input text data and consequent document classification using the supervised method and trying to get at least similar performance using the unsupervised method.
+
+Document classification consists of a significant portion utilizing some measures of vector similarity. Vector representation is a conversion of input text and one of the crucial steps of document pre-processing. Bag-of-Words model(BOW)~\cite{bow1} is the basic approach to such conversion. Another chosen representation, because of such success, is tf-idf widely-used model~\cite{TWE,impruvDocClass,thesisJE,chinniyan2017semantic,jiang2018text}. Finally, we utilizing the doc2vec~\cite{lau2016empirical} representation model%~\cite{trieu2017news,hamdi2017machine}. Sometimes the length and a little amount of semantic information of the resulting vector may hurt the performance of the classification algorithms. Therefore several methods for the reduction of the vector dimension are discussed later here. 
+
+For the classification itself, we have picked two methods -- the ``classic'' unsupervised clustering algorithm K-means, which is simple but is known to perform well with the suitable feature vectors, and the ``simple'' supervised classification Linear SVM algorithm for comparison with the unsupervised. 
+
+
+\section{Datasets}
+\label{sec:data}
+As our basic dataset, we have picked the \emph{20NewsGroups} English corpus\footnote{This data set can be found at \url{http://qwone.com/~jason/20Newsgroups/} and it was originally collected by Ken Lang.} which is widely used as a benchmark for document classification~\cite{chinniyan2017semantic,jiang2018text,TWE,WordRep,novotny2017unsupervised,refVysBinary,refVysEval}. It contains 20 000 text documents which are evenly divided into 20 categories that each contain discussion about a specific topic. The second data set \emph{CNO} and all sub-sets of this data set are in the Czech language. Contains approximately 68 000 articles divided into 31 categories\footnote{It was created from a database of news articles downloaded from the \url{http://www.ceskenoviny.cz/} at the University of West Bohemia and constitutes only a small fraction of the entire database -- the description of the full database can be found in~\cite{jmzw}.}.This corpus was created so that it is at least in size and partially also in topics comparable to the English data set. Third data sets \emph{TC} and \emph{Large TC} are created by the transcription of phone calls from queries on call centre which provides control of spelling of the Czech language. 
+
+In order to compare our results with the ones published previously, we have re-created two subdivision of the \emph{20NewsGroup} corpus. The first one is created according to~\cite{refVysEval} and also used in our previous work~\cite{novotny2017unsupervised} where it is described in more details. 
+
+The other subdivision is created in order to compare the results with experiments described in~\cite{chinniyan2017semantic} and~\cite{jiang2018text}. \emph{20NG1} data sub-set consists of the 5 new categories (according to~\cite{chinniyan2017semantic}) created by joining original ones as follows: \texttt{Motorcycle} -- Motorcycle and Autos; \texttt{Hardware} -- Windows and MAC; \texttt{Sports} -- Baseball and Hockey; \texttt{Graphics} -- Computer graphics; \textbf{Religion} -- Christianity, Atheism and misc.\emph{20NG2} input is whole unchanged \emph{20NewsGroup} corpus (as~\cite{jiang2018text}).
+
+The next data \emph{CNO} and \emph{TC} sets and sub-sets used for experiments cant be unfortunately compared with another published results. The first one \emph{CNO} consists of the following subsets:
+\begin{itemize}
+\item Set \emph{CNO} consists of all 31 original categories. This results in approximately 68 000 documents in total.
+
+\item Set \emph{RCNO1} consists of 11 original categories which contain at least 1000 documents. 
+
+\item Set \emph{RCNO2} consists of 10 original categories containing a number of documents between 500 and 1500. 
+
+\item \emph{RCNO3} set is created from 12 categories (consists at least of 1000 documents). Each containing randomly chosen 1000 document of the original categories. This set is created for the purpose to be similar to \emph{20NewsGroup} corpus.
+\end{itemize}
+
+The data \emph{TC} and \emph{Large TC} are simple transcripts of spoken Czech language and categorize to clusters according to the spoken topic. \emph{TC} consists of 20 categories containing 3713 transcripted text parts of the phone calls. Some of the categories are formed with the small number of texts (for example only 10), we responded to that by creating \emph{Large TC} data consist of 10 original categories (3343 transcripted text parts) where each contains at least 100 text parts.  
+
+\section{Preprocessing}
+\label{sec:preproc}
+First processing step is only in case of the \emph{20NewsGroups} data, where we removed all the headers except for the \textbf{Subject}. Then all uppercase characters were lower-cased and all digits were replaced by one universal symbol. 
+
+As the next processing step, we wanted to conflate different morphological forms of the given word into one representation. We opted for lemmatization. The MorphoDiTa \cite{Morp} tool was picked for the task -- it works for both English and Czech and is available as a Python package.\footnote{\texttt{ufal.morphodita} at \url{https://pypi.python.org/pypi/ufal.morphodita}} 
+
+Traditional stop word removal is further preprocessing operation done in this paper by picking only the top \emph{T} lemmas with highest mutual information (MI). \\
+
+After applying all these processing steps we can create following matrix representations:
+\subsection{Representation by TF-IDF weights}
+\label{sec:tfidf}
+Common representation in text processing task is by \emph{TF-IDF} weights. The well-known formula to compute \emph{TF-IDF} weights $w_{l,d}$ for the lemmas $l \in L$ and documents $d \in D$:
+\begin{equation}
+w_{l,d} = tf_{l,d} * idf_l
+\label{tfidf}
+\end{equation}
+
+where $tf_{l,d}$ denotes the number of times the lemma $l$ occurs in document $d$ and $idf_l$ is computed using formula:
+\begin{equation}
+idf_l = \frac{N}{N(l)}
+\label{idf}
+\end{equation}
+where $N$ is a total number of documents and $N(l)$ denotes a number of documents containing the lemma $l$.
+
+In essentially all further experiments we use implemented Python package \texttt{sklearn}~\cite{skl}\footnote{More precisely the \texttt{TfidfVectorizer} module from that package.} for computing \emph{TF-IDF} weights. 
+\subsection{Representation by doc2vec weights}
+\label{sec:d2v}
+According to \cite{lau2016empirical} doc2vec representation is simple extension of word2vec. This is done by embedding words into their sequences. Input can be n-gram, sentences, paragraphs or whole documents. This type of representation is considered as state-of-the-art for sentiment analysis tasks. 
+
+In this paper we use the doc2vec implementation in Gensim package \cite{gens} for Python. Input data are in form of pairs consist of feature vector representation gain from \ref{sec:preproc} and label of the given document (text). The output is then matrix doc2vec weights, where every row corresponds to a specific document (text).  
+
+\subsection{Use of LSA reduction on representations \ref{sec:tfidf} and \ref{sec:d2v}}
+\label{sec:lsared}
+Using of Latent Semantic Analysis (LSA)~\cite{lsaIntro} we firstly achieve lower dimensions for matrixes represenations \emph{TF-IDF} \ref{sec:tfidf}, \emph{doc2vec} \ref{sec:d2v} and secondly capturing some of the semantics hidden in the input texts. The LSA method is implemented in the Python package \texttt{sklearn} --  the module \texttt{TruncatedSVD}.
+
+\section{Classification Methods}
+\label{sec:class}
+For our purposes, we picked one simple supervised and one simple unsupervised method. Our goal is to use unsupervised classification and at least get similar results to supervised ones.
+\subsection{K-means}
+\label{subsec:kmeans}
+Simple unsupervised classification algorithm -- the classic K-means clustering method~\cite{kmeans} -- is being used here. This method is quite powerful for unsupervised data classification, which is generally accepted if it is given appropriate feature vectors. Since the feature vectors consisting of the tf-idf weights capture the content of the document rather well (and the reduced feature vectors obtained from LSA do it even better) as we confirmed in~\cite{novotny2017unsupervised}, we expected to gain even better results from doc2vec weights and its LSA reduction.
+
+The \texttt{sklearn} package implementation is being used as the version of the K-means algorithm. All preprocessed representation created according to \ref{sec:preproc} are used and this model is applied to all the data sets described in Section~\ref{sec:data}. Results can be found in Section~\ref{sec:results}. 
+
+\subsection{SVM}
+\label{subsec:svm}
+The supervised classification method being used here is the classic Linear SVM algorithm. This simple but powerful supervised data classification algorithm could be quiet sufficient. The feature vectors used here are \emph{TF-IDF} weights representation, \emph{doc2vec} weights representation, LSA reductions of those representations and their combination. 
+
+We have used the version of Linear SVM algorithm implemented in our favourite \texttt{sklearn} package (to be exact the module \texttt{LinearSVC}). Results can be found in Section~\ref{sec:results}. 
+
+\section{Evaluation}
+\label{sec:eval}
+Few measures for evaluation of the classification algorithms are widely-used in published papers. Comparition of our algorithms performances to the previously published results was mostly the fact  to chose measures \emph{Accuracy}, \emph{Precision}, \emph{Recall} and \emph{F1}.
+
+The \emph{Accuracy} measure is picked only because of \emph{20NG2} data set. It represents the percentage of correctly classified documents. This percentage is simply a number of the test documents, which are assigned with the correct topic. 
+
+The Table \ref{tab:1} and \ref{tab:3} lists the results with the use of \emph{Precision} and \emph{Recall} measures computed according to \cite{refVysEval}. Following equasions for computing micro-average type of \emph{Precision} and \emph{Recall} measures are explain in our previos work~\cite{novotny2017unsupervised} or in~\cite{refVysEval}.
+
+\begin{equation}
+P(T) = \frac{\sum_c \alpha (c,T)}{\sum_c \alpha (c,T)+\beta (c,T)}
+\label{pr}
+\end{equation}
+\begin{equation}
+R(T) =  \frac{\sum_c \alpha (c,T)}{\sum_c \alpha (c,T)+\gamma (c,T)}
+\label{re}
+\end{equation}
+Standart equation for computing F1 measure is~\cite{chinniyan2017semantic}: 
+\begin{equation}
+F1 = 2* \frac{P*R}{P+R}
+\label{e:f1}
+\end{equation}
+The results reported in Table~\ref{tab:1} and~\ref{tab:3} lists only the \emph{Precision} measure, this is caused by usage of uni-labeled data sets (number of original categories in corpus have to be also the same as the number of output clusters from algorithms), the $P(T)$ is necessarily equal to $R(T)$ and to $F1$ and it is sufficient to report only one of those values.
+
+\section{Results}
+\label{sec:results}
+
+First sets of results are listed in Table \ref{tab:1}; these results were achieved on \emph{20NG}, \emph{10NG}, \emph{Binary[0/1/2]}, \emph{5Multi[0/1/2]}, \emph{10Multi[0/1/2]} data sets. We are reporting only \emph{10Multi Average}, \emph{5Multi Average}, \emph{2Multi Average} result of the smaller data sub-sets and compare it with the values reported in the previously published paper~\cite{refVysEval}. It were used only results of unsupervised Sequential Information Bottleneck (\emph{sIB}) method created by the autors of the mentioned paper. In our experiments, Linear SVM uses 10-fold cross validation technique and we run K-means algorithms 10 times over each subset (same approach used in \cite{refVysEval}). Averaged results from those runs are listed in Table~\ref{tab:1}. The meaning of the K-means experiment labels is listed in the following table:
+\begin{itemize}
+\item \emph{TF-IDF} uses tf-idf weights as input, every vector has size 5000. 
+\item \emph{TF-IDF + LSA} uses tf-idf weights reduced by LSA method, every vector has size 200.
+\item \emph{doc2vec} uses doc2vec weights as input, every vector has size 5000. 
+\item \emph{doc2vec + LSA} uses doc2vec weights reduced by LSA method, every vector has size 200.
+\item \emph{TF-IDF + doc2vec} is combination of \emph{TF-IDF + LSA} with \emph{doc2vec + LSA} weights, every vector has size 400.
+\end{itemize}
+
+
+\begin{table}[]
+\centering
+\caption[Data]{Comparison of our results with results achieved in \cite{refVysEval}}
+\label{tab:1}
+\begin{tabular}{|l||c|c||c|c|c|c|c|}
+\hline
+& \multicolumn{7}{c|}{\emph{Precision} of methods [\%]} \\ \cline{2-8}
+& & & \multicolumn{5}{c|}{K-means method with input matrix} \\ \cline{4-8}
+\multicolumn{1}{|c||}{20NewsGroups}  & \emph{sIB} & \emph{Linear SVC} & \emph{TF-IDF} & \emph{TF-IDF} & \emph{doc2vec} &  \emph{doc2vec} &  \emph{TF-IDF}\\ 
+ \multicolumn{1}{|c||}{sub-sets} &  &  &  & \emph{+ LSA} & & \emph{+ LSA} & \emph{+ doc2vec} \\  \hline \hline
+\emph{20NG}     		& 57.50 & 96.38 & 51.75 & 51.68 & 70.91 & 70.76 & 73.14 \\ \hline 
+\emph{10NG}     		& 79.50 & 95.61 & 41.43 & 42.42 & 62.80 & 67.81 & 62.67\\ \hline
+Average ``large''  	& 68.50 & 95.99 & 46.59 & 47.05 & 66.86 & 69.29 & 67.91\\ \hline \hline
+\emph{10Multi Average} & 67.00 & 91.63 & 40.26 & 40.79 & 47.15 & 49.90 & 52.18\\ \hline
+\emph{5Multi Average} 	& 91.67 & 96.85 & 63.65 & 63.25 & 72.45 & 77.76 & 80.95\\ \hline
+\emph{2Multi Average} 	& 91.20 & 99.25 & 93.49 & 93.57 & 96.81 & 96.91 & 96.08\\ \hline
+Average ``small''  	& 83.30 & 95.91 & 65.80 & 65.87 & 72.13 & 74.86 & 76.40\\ \hline 
+\end{tabular}
+\end{table}
+
+
+In Table \ref{tab:2} are listed second sets of results. We again compare our results with values reported in the previously published papers~\cite{chinniyan2017semantic} and~\cite{jiang2018text}. The authors of the ~\cite{chinniyan2017semantic} paper used \emph{SVM based 1} and \emph{SVM based 2} methods. Both of these methods are classic SVM algorithms, in case of \emph{SVM based 1} method uses as input generated training data by use of WordNet, documents of input corpus and preprocessing as: stop-word removal, tokenization, TF-IDF representation, clusters created by Latent Semantic Indexing (LSI), etc. The \emph{SVM based 2} method is same in preprocessing but uses the corpus of input documents. The method listed as \emph{HM} stated in~\cite{jiang2018text} is semi-supervised classification and uses the hybrid model of deep belief network and soft regression. The unlabeled data are used to train deep belief network model and labelled data are used to train softmax regression model and fine-tune the coherent whole system. For gaining our results we used the same approach as listed above only with corresponding datasets to methods used here.  
+
+\begin{table}[]
+\centering
+\caption[Data]{Comparison of our results with results achieved in \cite{chinniyan2017semantic} and \cite{jiang2018text}}
+\label{tab:2}
+\begin{tabular}{|c||c|c||c||c|c|c|c|c|c|}
+\hline
+& \multicolumn{9}{c|}{Methods} \\ \cline{2-10}
+\multicolumn{1}{|c||}{20News} & SVM & SVM & HM & \multicolumn{6}{c|}{Our approach} \\ \cline{5-10}
+\multicolumn{1}{|c||}{Group} & \multicolumn{1}{|c|}{based 1\tablefootnote{Training done by using 20News Group and Web Features}} & \multicolumn{1}{|c||}{based 2\tablefootnote{Training done by using only 20News Group}} & & & \multicolumn{5}{c|}{K-means method with input matrix} \\ \cline{6-10}
+\multicolumn{1}{|c||}{Sets} & & & & \emph{Linear SVM} & \emph{TF-IDF} & \emph{TF-IDF} & \emph{doc2vec} &  \emph{doc2vec} &  \emph{TF-IDF}\\ 
+& & & & &  & \emph{+ LSA} & & \emph{+ LSA} & \emph{+ doc2vec} \\  \hline \hline
+\emph{20NG1\tablefootnote{Data set prepared according to \cite{chinniyan2017semantic} and describe in section \ref{sec:data}\label{f:f1}} }  & 73.00 & 64.00 & -- & 99.912 & 73.73 & 73.61 & 75.51 & 75.47 & 77.15 \\ 
+\multicolumn{1}{|c||}{F1 measure [\%]} &  &  &  &  &  &  &  &  &  \\ \hline \hline
+\emph{20NG2\tablefootnote{Data set prepared according to \cite{jiang2018text} and describe in section \ref{sec:data}\label{f:f2}} }  & -- & -- & 82.63 & 96.38 & 51.75 & 51.68 & 70.91 & 70.76 & 73.14  \\ 
+\multicolumn{1}{|c||}{Accuracy [\%]} &  &  &  &  &  &  &  &  &  \\ \hline 
+\end{tabular}
+\end{table}
+
+
+
+Results on Czech data sets are listed in Table~\ref{tab:3}. We state these only for the purpose of testing our approach on the data in the different language than English. The results on the language rather distant from English shows that our approach of the preparation of the data can be also applied in this case.  
+
+\begin{table}[]
+\centering
+\caption[Data]{Results on \emph{Czech} data sets}
+\label{tab:3}
+\begin{tabular}{|l||c||c|c|c|c|c|}
+\hline
+& \multicolumn{6}{c|}{\emph{Precision} of methods [\%]} \\ \cline{2-7}
+\multicolumn{1}{|c||}{Czech data} & & \multicolumn{5}{c|}{K-means method with input matrix} \\ \cline{3-7}
+\multicolumn{1}{|c||}{sets} & \emph{Linear SVM} & \emph{TF-IDF} & \emph{TF-IDF} & \emph{doc2vec} &  \emph{doc2vec} &  \emph{TF-IDF}\\ 
+ &  &  & \emph{+ LSA} & & \emph{+ LSA} & \emph{+ doc2vec} \\  \hline \hline
+\emph{CNO}     					& 76.79 & 28.79 & 28.91 & 30.87 & 29.97 & 29.45 \\ \hline 
+\emph{RCNO1}     	& 93.94 & 46.13 & 47.06 & 53.71 & 52.79 & 54.60 \\ \hline
+\emph{RCNO2}     	& 96.30 & 42.20 & 42.85 & 49.24 & 49.46 & 53.04 \\ \hline
+\emph{RCNO3}     	& 93.54 & 51.11 & 51.86 & 61.00 & 61.00 & 61.29 \\ \hline \hline
+
+\emph{Prepisy} 					& 77.92 & 31.29 & 32.12 & 31.51 & 28.65 & 32.53 \\ \hline
+\emph{Redukované Prepisy} 		& 78.89 & 40.34 & 38.79 & 38.68 & 38.54 & 42.08 \\ \hline
+
+\end{tabular}
+\end{table}
+
+%\newpage
+
+\section{Conclusion}
+\label{sec:conclusion}
+A reasonably effective pipeline for unsupervised text documents classification according to their topic is introduced in this paper. Preprocessing of the raw input text\footnote{Applying lemmatization and data-driven stop-word removal.} and extracted feature vectors\footnote{Use of LSA method} are key factors in our aproach. Simple supervised Linear SVM and unsupervised classification K-means algorithms were used and as was predicted, the supervised one is superior to the unsupervised. Our main goal is to at least have similar results with unsupervised algorithm to supervised one. The performance of this unsupervised method (stated in Table~\ref{tab:2}) was almost on par with semi-supervised algorithm and even better against supervised algorithms used in~\cite{chinniyan2017semantic}. This is an important finding of our research, since the training data annotated with correct document classification -- which are necessary for supervised learning -- are often not available. Also our aproach of preprocessing input data texts is suitable even for simple supervised Linear SVM algorithm which performance is really satisfying.
+
+%\subsubsection*{Acknowledgements.} This research was supported by the Ministry of Culture of the Czech Republic, project No.DG16P02B048.
+
+\bibliography{bibKOMPLET}
+%\bibliographystyle{plain}
+\bibliographystyle{splncs04}
+
+
+
+\end{document}

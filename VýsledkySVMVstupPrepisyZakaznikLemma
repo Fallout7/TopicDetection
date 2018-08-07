@@ -1,0 +1,24 @@
+﻿Výsledky SVM bez cross validace vstupu: VstupPrepisyZakaznikLemma
+---------- SVM na TFIDF matici ----------
+Accuracy je: 93.5749588138
+---------- SVM na TFIDF matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 90.6095551895
+---------- SVM na doc2vec matici ----------
+Accuracy je: 74.9588138386
+---------- SVM na doc2vec matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 65.7331136738
+---------- SVM na tfidf matici spojenou s doc2vec maticí s vektorem příznaků o velikosti 400----------
+Accuracy je: 91.5980230643
+
+
+Výsledky SVM s 10-fold cross validací vstupu: VstupPrepisyZakaznikLemma
+---------- SVM na TFIDF matici ----------
+Accuracy je: 73.1578947368
+---------- SVM na TFIDF matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 71.3815789474
+---------- SVM na doc2vec matici ----------
+Accuracy je: 59.4736842105
+---------- SVM na doc2vec matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 58.5526315789
+---------- SVM maticí tvořenou spojením tfidf matice a doc2vec matice s dimenzí 400----------
+Accuracy je: 73.0263157895

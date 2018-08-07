@@ -1,0 +1,42 @@
+﻿Výsledky SVM s TF-IDF maticí a 10-fold cross validací na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 66.4934164934
+Výsledky SVM s TF-IDF maticí a 10-fold cross validací a sníženou dimenzí 200 na na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 72.1413721414
+
+Výsledky SVM s doc2vec maticí o velikosti500 a 10-fold cross validací na datech VstupPrepisyStereoAmonoVelkeLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 67.6992376992
+Výsledky SVM s doc2vec maticí a sníženou dimenzí 200 a 10-fold cross validací na na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 0.0
+
+Výsledky SVM s maticí vytvořenou spojením matic tfidf a doc2vec a 10-fold cross validací s počtem příznaků 400 na datech VstupPrepisyStereoAmonoVelkeLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 0.0
+
+Výsledky LDA 10-fold cross validací na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 43.4719334719
+
+Výsledky K-means s TF-IDF maticí a 10-fold cross validací na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 40.8752598753
+Výsledky K-means s TF-IDF maticí a 10-fold cross validací a sníženou dimenzí 200 na na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 39.841995842
+
+Výsledky K-means s doc2vec maticí o velikosti500 a 10-fold cross validací na datech VstupPrepisyStereoAmonoVelkeLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 35.261954262
+Výsledky K-means s doc2vec maticí a sníženou dimenzí 200 a 10-fold cross validací na na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 103.172557173
+
+Výsledky K-means s maticí vytvořenou spojením matic tfidf a doc2vec a 10-fold cross validací s počtem příznaků 400 na datech VstupPrepisyStereoAmonoVelkeLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 109.385308385
+
+Výsledky CRF s TF-IDF maticí a 10-fold cross validací na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 230.076230076
+Výsledky CRF s TF-IDF maticí a 10-fold cross validací a sníženou dimenzí 200 na na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 57.5190575191
+
+Výsledky CRF s doc2vec maticí o velikosti500 a 10-fold cross validací na datech VstupPrepisyStereoAmonoVelkeLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 0.0
+Výsledky CRF s doc2vec maticí a sníženou dimenzí 200 a 10-fold cross validací na na datech VstupPrepisyStereoAmonoVelkeLemma
+Acc je: 0.0
+
+Výsledky CRF s maticí vytvořenou spojením matic tfidf a doc2vec a 10-fold cross validací s počtem příznaků 400 na datech VstupPrepisyStereoAmonoVelkeLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 0.0
+

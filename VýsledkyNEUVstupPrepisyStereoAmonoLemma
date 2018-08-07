@@ -1,0 +1,30 @@
+﻿Výsledky po provedení 10-fold cross validace:
+Výsledky s využitím TF-IDF matice.
+SVM: 44.606141522
+NeuKer: 0.45514018702
+Neu: 46.6755674232
+
+Výsledky s využitím TF-IDF matice snížené s LSA.
+SVM: 48.5313751669
+NeuKer: 0.489719626311
+Neu: 48.9986648865
+
+Výsledky s využitím doc2vec matice.
+SVM: 41.1748998665
+NeuKer: 0.440987984067
+Neu: 44.4726301736
+
+Výsledky s využitím doc2vec matice snížené s LSA.
+SVM: 43.4512683578
+NeuKer: 0.448264352576
+Neu: 45.0200267023
+
+Výsledky s využitím spojení TF-IDF LSA a doc2vec LSA matice.
+SVM: 47.2162883845
+NeuKer: 0.487049399297
+Neu: 48.9385847797
+
+Výsledky s využitím spojení TF-IDF a doc2vec matice.
+SVM: 41.5420560748
+NeuKer: 0.4455273699
+Neu: 45.0534045394

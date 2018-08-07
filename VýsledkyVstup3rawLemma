@@ -1,0 +1,16 @@
+﻿Výsledky LDA 10-fold cross validací na datech Vstup3rawLemma
+Acc je: 24.69
+
+Výsledky K-means s TF-IDF maticí a 10-fold cross validací na datech Vstup3rawLemma
+Acc je: 54.5816
+Výsledky K-means s TF-IDF maticí a 10-fold cross validací a sníženou dimenzí 200 na na datech Vstup3rawLemma
+Acc je: 65.8806
+
+Výsledky K-means s doc2vec maticí o velikosti300 a 10-fold cross validací na datech Vstup3rawLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 65.572
+Výsledky K-means s doc2vec maticí a sníženou dimenzí 200 a 10-fold cross validací na na datech Vstup3rawLemma
+Acc je: 67.9014
+
+Výsledky K-means s maticí vytvořenou spojením matic tfidf a doc2vec a 10-fold cross validací s počtem příznaků 400 na datech Vstup3rawLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 74.5526
+

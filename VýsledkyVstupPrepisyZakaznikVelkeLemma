@@ -1,0 +1,16 @@
+﻿Výsledky LDA 10-fold cross validací na datech VstupPrepisyZakaznikVelkeLemma
+Acc je: 31.5873015873
+
+Výsledky K-means s TF-IDF maticí a 10-fold cross validací na datech VstupPrepisyZakaznikVelkeLemma
+Acc je: 36.3095238095
+Výsledky K-means s TF-IDF maticí a 10-fold cross validací a sníženou dimenzí 200 na na datech VstupPrepisyZakaznikVelkeLemma
+Acc je: 37.9920634921
+
+Výsledky K-means s doc2vec maticí o velikosti300 a 10-fold cross validací na datech VstupPrepisyZakaznikVelkeLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 36.7380952381
+Výsledky K-means s doc2vec maticí a sníženou dimenzí 200 a 10-fold cross validací na na datech VstupPrepisyZakaznikVelkeLemma
+Acc je: 37.0714285714
+
+Výsledky K-means s maticí vytvořenou spojením matic tfidf a doc2vec a 10-fold cross validací s počtem příznaků 400 na datech VstupPrepisyZakaznikVelkeLemma s hodnotami alpha a minalpha: 0.019
+Acc je: 40.3412698413
+

@@ -1,0 +1,24 @@
+﻿Výsledky SVM bez cross validace vstupu: VstupShlukyCNOLemma
+---------- SVM na TFIDF matici ----------
+Accuracy je: 96.2928271401
+---------- SVM na TFIDF matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 86.5411916226
+---------- SVM na doc2vec matici ----------
+Accuracy je: 84.3795278587
+---------- SVM na doc2vec matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 83.075504559
+---------- SVM na tfidf matici spojenou s doc2vec maticí s vektorem příznaků o velikosti 400----------
+Accuracy je: 88.4745415429
+
+
+Výsledky SVM s 10-fold cross validací vstupu: VstupShlukyCNOLemma
+---------- SVM na TFIDF matici ----------
+Accuracy je: 92.9937946376
+---------- SVM na TFIDF matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 85.4771104086
+---------- SVM na doc2vec matici ----------
+Accuracy je: 82.5131717597
+---------- SVM na doc2vec matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 81.6473480857
+---------- SVM maticí tvořenou spojením tfidf matice a doc2vec matice s dimenzí 400----------
+Accuracy je: 87.1186043789

@@ -1,0 +1,24 @@
+﻿Výsledky SVM bez cross validace vstupu: VstupPrepisyStereoAmonoOperatorLemma
+---------- SVM na TFIDF matici ----------
+Accuracy je: 87.6918933477
+---------- SVM na TFIDF matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 69.4586587665
+---------- SVM na doc2vec matici ----------
+Accuracy je: 71.1553999461
+---------- SVM na doc2vec matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 65.6073256127
+---------- SVM na tfidf matici spojenou s doc2vec maticí s vektorem příznaků o velikosti 400----------
+Accuracy je: 77.1343926744
+
+
+Výsledky SVM s 10-fold cross validací vstupu: VstupPrepisyStereoAmonoOperatorLemma
+---------- SVM na TFIDF matici ----------
+Accuracy je: 74.5855758881
+---------- SVM na TFIDF matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 66.3832077503
+---------- SVM na doc2vec matici ----------
+Accuracy je: 64.7255113025
+---------- SVM na doc2vec matici se sníženou dimenzí za použití LSA na 200----------
+Accuracy je: 64.0150699677
+---------- SVM maticí tvořenou spojením tfidf matice a doc2vec matice s dimenzí 400----------
+Accuracy je: 69.8708288482
